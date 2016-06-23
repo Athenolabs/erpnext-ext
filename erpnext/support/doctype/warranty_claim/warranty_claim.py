@@ -73,13 +73,14 @@ def make_maintenance_visit(source_name, target_doc=None):
 def get_warranty_docs(doctype=None, txt=None, filters=None, limit_start=0, limit_page_length=20, party=None):
 	user = frappe.session.user
 	contact = frappe.db.sql("""select customer from tabContact where user=%s""", user, as_dict=1)
+	warranty_docs = ""
 	if contact:
 		warranty_docs = frappe.db.sql("""select *
 			from `tabWarranty Claim`
 			where customer=%s
 			order by modified desc
 			limit {0}, {1}""".format(limit_start, limit_page_length), contact[0].customer, as_dict=True, update={"doctype": "Warranty Claim"})
-		return warranty_docs
+	return warranty_docs
 
 
 def get_list_context(context=None):
